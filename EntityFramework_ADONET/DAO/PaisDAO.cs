@@ -19,6 +19,7 @@ namespace EntityFramework_ADONET.DAO
             Console.WriteLine("\nLista de Países");
             foreach (var item in lista)
             {
+                Console.WriteLine("idPais \t codigoPais \t nombrePais");
                 Console.WriteLine(item.idPais + "\t" + item.codigoPais + "\t" + item.nombrePais);
             }
         }

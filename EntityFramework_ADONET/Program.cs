@@ -1,4 +1,5 @@
-﻿using EntityFramework_ADONET.DAO;
+﻿using EntityFramework_ADONET.BEAN;
+using EntityFramework_ADONET.DAO;
 using EntityFramework_ADONET.Modelo;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace EntityFramework_ADONET
                 Console.WriteLine("Mantenimiento BD");
                 Console.WriteLine("\n1 - CRUD Cliente");
                 Console.WriteLine("2 - CRUD Tarjeta");
-                Console.WriteLine("3 - CRUD Pais");                
+                Console.WriteLine("3 - CRUD Pais");
+                Console.WriteLine("4 - CRUD Viaje");
                 Console.WriteLine("\n Ingrese Opción: ");
                 int opcion;
                 opcion = Convert.ToInt32(Console.ReadLine());
@@ -120,6 +122,73 @@ namespace EntityFramework_ADONET
                                 Console.WriteLine("\n¿Desea Continuar? (S/N) ");
                                 rpta = Console.ReadLine();
                                 break;
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case 4:
+                        ViajeDAO viajeDAO = new ViajeDAO();
+                        PaisDAO paisDAO_EF2 = new PaisDAO();
+                        TarjetaDAO tarjDAO_EF2 = new TarjetaDAO();
+                        Console.Clear();
+                        Console.WriteLine("Mantenimiento Viaje");
+                        Console.WriteLine("\n1 - Registrar Viaje");
+                        Console.WriteLine("2 - Listar Viaje");                        
+                        Console.WriteLine("\n Ingrese Opción: ");
+                        int opcion4;
+                        opcion4 = Convert.ToInt32(Console.ReadLine());
+                        switch (opcion4)
+                        {
+                            case 1:
+                                tarjDAO_EF2.ListarTarjetaEF();
+                                paisDAO_EF2.ListarPaisEF();
+                                ViajeBEAN viajeBEAN = new ViajeBEAN();
+
+                                Console.WriteLine("Ingrese IdTarjeta:");
+                                viajeBEAN.IdTarjeta = Convert.ToInt32(Console.ReadLine());
+
+                                Console.WriteLine("Ingrese IdPais:");
+                                viajeBEAN.IdPais = Convert.ToInt32(Console.ReadLine());
+
+                                Console.WriteLine("Ingrese Fecha Inicio Viaje:");
+                                viajeBEAN.FechaInicioViaje = Convert.ToDateTime(Console.ReadLine());
+
+                                Console.WriteLine("Ingrese Fecha Fin Viaje:");
+                                viajeBEAN.FechaFinViaje = Convert.ToDateTime(Console.ReadLine());
+
+                                Console.WriteLine("Ingrese estado Viaje:");
+                                viajeBEAN.EstadoViaje = Convert.ToString(Console.ReadLine());
+
+
+                                bool rptaReg = viajeDAO.RegistrarRol(viajeBEAN);
+                                if (rptaReg)
+                                {
+                                    Console.WriteLine("Registrado Correctado");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Error en registar de Viaje");
+                                }
+                                
+                                Console.WriteLine("\n¿Desea Continuar? (S/N) ");
+                                rpta = Console.ReadLine();
+                                break;
+
+                            case 2:
+                                List<ViajeBEAN> listaViaje = new List<ViajeBEAN>();
+                                listaViaje = viajeDAO.ListarViaje();
+                                Console.Clear();
+                                Console.WriteLine("Lista Viajes");
+                                foreach (var item in listaViaje)
+                                {
+                                    Console.WriteLine("IdViaje \t IdTarjeta \t IdPais \t FechaInicioViaje \t FechaFinViaje \t EstadoViaje");
+                                    Console.WriteLine(item.IdViaje + "\t" + item.IdTarjeta + "\t" + item.IdPais + "\t" + item.FechaInicioViaje + "\t" + item.FechaFinViaje +"\t" + item.EstadoViaje);
+                                }                                
+                                Console.WriteLine("\n¿Desea Continuar? (S/N) ");
+                                rpta = Console.ReadLine();
+                                break;                            
                             default:
                                 break;
                         }
